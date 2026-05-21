@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>✨ 爱你的斑斓色彩 · 马祥校致段和娟 ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fff0f5 0%, #ffe4ed 100%);
+            font-family: 'Georgia', 'Times New Roman', '宋体', 'PingFang SC', 'Apple Color Emoji', serif;
+            padding: 24px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: bgGlow 8s infinite alternate ease-in-out;
+            transition: background 0.3s;
+        }
+
+        @keyframes bgGlow {
+            0% { background: linear-gradient(135deg, #fff0f5, #ffe0e8);}
+            50% { background: linear-gradient(135deg, #ffe8f0, #ffd6e2);}
+            100% { background: linear-gradient(135deg, #fff0fc, #ffe0ea);}
+        }
+
+        /* 主信纸 */
+        .letter-paper {
+            max-width: 640px;
+            width: 100%;
+            background: rgba(255, 252, 250, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 180, 190, 0.5);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s ease;
+            animation: paperFloat 5s infinite alternate ease-in-out;
+        }
+
+        @keyframes paperFloat {
+            0% { transform: translateY(0px); box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);}
+            100% { transform: translateY(-5px); box-shadow: 0 30px 50px rgba(0, 0, 0, 0.12);}
+        }
+
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #ff9eb5, #ffc0d0, #ffb3c8, #ff9eb5);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .letter-content {
+            padding: 38px 32px 48px;
+        }
+
+        /* 动态头部 */
+        .heart-decoration {
+            text-align: center;
+            font-size: 1.8rem;
+            letter-spacing: 12px;
+            color: #f68bae;
+            margin-bottom: 6px;
+            animation: heartFloat 2s infinite ease;
+            display: inline-block;
+            width: 100%;
+        }
+
+        @keyframes heartFloat {
+            0% { transform: translateY(0px); text-shadow: 0 0 0px #ffb7c5; }
+            50% { transform: translateY(-5px); text-shadow: 0 5px 12px rgba(255, 100, 130, 0.3); }
+            100% { transform: translateY(0px); text-shadow: 0 0 0px #ffb7c5; }
+        }
+
+        .letter-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #c44b6e, #f098b0, #e0698c);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGradient 5s infinite alternate;
+            margin-bottom: 8px;
+            font-family: 'KaiTi', '楷体', 'Georgia', serif;
+        }
+
+        @keyframes titleGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .letter-sub {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #e28aa8;
+            border-bottom: 1px solid rgba(255, 190, 210, 0.6);
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+            animation: subFade 3s infinite alternate;
+        }
+
+        @keyframes subFade {
+            0% { opacity: 0.7; letter-spacing: 0.5px; }
+            100% { opacity: 1; letter-spacing: 1.5px; }
+        }
+
+        /* ========= 动态文字控制区 ========= */
+        .color-control {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            background: rgba(255, 245, 248, 0.7);
+            padding: 8px 16px;
+            border-radius: 60px;
+            backdrop-filter: blur(2px);
+        }
+        .color-label {
+            font-size: 12px;
+            font-family: monospace;
+            color: #c26e8c;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        .color-picker-btn {
+            background: #f1dce4;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-family: monospace;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .color-picker-btn:hover {
+            background: #ffdee8;
+            transform: scale(0.96);
+        }
+        .palette {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9eb5, #e47193);
+            box-shadow: 0 0 0 1px white;
+        }
+        /* 动态文字主体 */
+        .dynamic-text {
+            transition: color 0.2s ease, text-shadow 0.2s;
+        }
+
+        .greeting {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(120deg, #bc5f7e, #e47b9b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            font-family: 'KaiTi', '楷体', serif;
+            animation: gentleGlow 3s infinite alternate;
+        }
+
+        @keyframes gentleGlow {
+            0% { filter: drop-shadow(0 0 2px #ffb7c5); }
+            100% { filter: drop-shadow(0 0 6px #ff98b5); }
+        }
+
+        .letter-body {
+            font-size: 1rem;
+            line-height: 1.85;
+            margin-bottom: 24px;
+            font-family: 'Georgia', 'Times New Roman', '宋体', serif;
+        }
+        .letter-body p {
+            margin-bottom: 18px;
+            text-indent: 2em;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+        .letter-body strong {
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+
+        /* ========= 代码情话区域 - 行号后面直接跟代码（紧凑左对齐） ========= */
+        .code-romance {
+            background: #1e1e2e;
+            border-radius: 20px;
+            margin: 28px 0 24px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'SF Mono', 'Cascadia Code', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 150, 170, 0.3);
+        }
+
+        /* 代码头部 - 仿IDE窗口 */
+        .code-header {
+            background: #2a2a37;
+            padding: 10px 16px;
+            border-bottom: 1px solid #3c3c4a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .code-dot.red { background: #f38ba8; }
+        .code-dot.yellow { background: #f9e2af; }
+        .code-dot.green { background: #a6e3a1; }
+        .code-title {
+            color: #cba6f7;
+            font-size: 11px;
+            font-family: monospace;
+        }
+        .code-title span {
+            color: #89dceb;
+        }
+        .code-placeholder {
+            width: 60px;
+        }
+
+        /* 代码主体 - 行号与代码在同一行，左对齐无额外间距 */
+        .code-body {
+            padding: 18px 16px;
+            background: #1e1e2e;
+        }
+        .code-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            white-space: pre-wrap;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .line-number {
+            display: inline-block;
+            width: 40px;
+            text-align: left;
+            color: #6c7086;
+            user-select: none;
+            flex-shrink: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+        }
+        .code-content {
+            flex: 1;
+            color: #cdd6f4;
+            white-space: pre-wrap;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        /* 语法高亮颜色 */
+        .code-comment { color: #a6e3a1; }
+        .code-keyword { color: #cba6f7; font-weight: 500; }
+        .code-var { color: #89dceb; }
+        .code-string { color: #f38ba8; }
+        .code-number { color: #fab387; }
+
+        /* 签名区样式 */
+        .signature-area {
+            background: rgba(255, 245, 248, 0.9);
+            border-radius: 40px;
+            padding: 22px 24px;
+            margin: 30px 0 24px;
+            border: 1px solid rgba(255, 190, 210, 0.8);
+            text-align: center;
+            backdrop-filter: blur(2px);
+        }
+        .signature-label {
+            font-size: 0.95rem;
+            color: #dc7b9c;
+            margin-bottom: 16px;
+            font-family: monospace;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            animation: labelPulse 2s infinite;
+        }
+        @keyframes labelPulse {
+            0% { opacity: 0.7; letter-spacing: 1px;}
+            100% { opacity: 1; letter-spacing: 2px;}
+        }
+        .signature-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+        .signature-input input {
+            flex: 2;
+            min-width: 180px;
+            padding: 14px 20px;
+            border: 1.5px solid #ffc0d0;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-family: 'KaiTi', '楷体', monospace;
+            background: white;
+            outline: none;
+            transition: all 0.3s;
+            text-align: center;
+            color: #553942;
+        }
+        .signature-input input:focus {
+            border-color: #ff8aac;
+            box-shadow: 0 0 0 4px rgba(255, 120, 150, 0.2);
+            transform: scale(1.01);
+        }
+        .signature-input button {
+            background: linear-gradient(95deg, #f47e9e, #ff9bb8);
+            border: none;
+            border-radius: 60px;
+            padding: 14px 34px;
+            color: white;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 14px rgba(244, 126, 158, 0.3);
+            letter-spacing: 1px;
+            animation: btnHeartBeat 1.8s infinite ease;
+        }
+        @keyframes btnHeartBeat {
+            0% { transform: scale(1); box-shadow: 0 4px 12px rgba(244, 126, 158, 0.3);}
+            50% { transform: scale(1.04); box-shadow: 0 8px 22px rgba(244, 126, 158, 0.5);}
+            100% { transform: scale(1); box-shadow: 0 4px 12px rgba(244, 126, 158, 0.3);}
+        }
+        .signature-input button:hover {
+            transform: scale(0.98);
+            background: linear-gradient(95deg, #e06286, #f48fae);
+            box-shadow: 0 8px 18px rgba(224, 98, 134, 0.4);
+            animation: none;
+        }
+        .signed-confirm {
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #2b7640;
+            display: none;
+            font-family: monospace;
+            background: #eef9f0;
+            padding: 14px 18px;
+            border-radius: 48px;
+            font-weight: 500;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .signed-confirm.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        .signed-confirm p {
+            margin: 6px 0;
+        }
+        .signed-confirm .heart-line {
+            margin-top: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .sign-area {
+            margin-top: 28px;
+            text-align: right;
+            border-top: 1px solid rgba(255, 190, 210, 0.7);
+            padding-top: 24px;
+            font-family: 'KaiTi', '楷体', serif;
+        }
+        .love-line {
+            font-size: 1.1rem;
+            background: linear-gradient(120deg, #b75b7c, #e48aa8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+            font-weight: 500;
+            animation: loveShine 3s infinite;
+        }
+        @keyframes loveShine {
+            0% { filter: drop-shadow(0 0 0px #ffb7c5);}
+            100% { filter: drop-shadow(0 0 5px #ff9db9);}
+        }
+        .sign-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #b34e6e, #f098b0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 4px;
+            animation: nameFlicker 3s infinite alternate;
+        }
+        @keyframes nameFlicker {
+            0% { opacity: 0.9; letter-spacing: 0px;}
+            100% { opacity: 1; letter-spacing: 1px;}
+        }
+        .sign-date {
+            font-size: 0.8rem;
+            color: #e59bb2;
+            margin-top: 6px;
+            transition: 0.2s;
+        }
+        footer {
+            text-align: center;
+            font-size: 11px;
+            color: #e3a1bb;
+            margin-top: 28px;
+            letter-spacing: 0.5px;
+            animation: footerGlow 3s infinite alternate;
+        }
+        @keyframes footerGlow {
+            from { opacity: 0.6; }
+            to { opacity: 1; text-shadow: 0 0 2px #ffbecf; }
+        }
+        @media (max-width: 480px) {
+            .letter-content { padding: 28px 20px 38px; }
+            .code-romance { font-size: 11px; }
+            .code-content, .line-number { font-size: 10px; line-height: 1.55; }
+            .signature-input button { padding: 12px 24px; }
+            .letter-title { font-size: 1.7rem; }
+            .signed-confirm { font-size: 0.88rem; padding: 12px 14px; }
+            .line-number { width: 34px; }
+        }
+    </style>
+</head>
+<body>
+<div class="letter-paper">
+    <div class="letter-content">
+        <!-- 动态文字控制区 -->
+        <div class="color-control">
+            <span class="color-label">🎨 爱你的斑斓色彩</span>
+            <button id="dynamicColorBtn" class="color-picker-btn">
+                <span class="palette"></span> 请听我的心动
+            </button>
+        </div>
+
+        <div class="heart-decoration">💗 🌸 💖 💗</div>
+        <div class="letter-title">致 段和娟</div>
+        <div class="letter-sub">一封酝酿了很久的真心话 · 正式告白</div>
+
+        <div class="greeting dynamic-text">✨ 亲爱的和娟 ✨</div>
+
+        <div class="letter-body" id="dynamicLetterBody">
+            <p class="dynamic-text">写下这些字时，窗外的风很轻，我的心却很重——那是一种被喜悦填满的踏实。</p>
+            <p class="dynamic-text">昨天，在520这个日子，你轻轻点头，在我耳边轻轻呢喃的答应和我在一起。那一句“我同意”让那一刻世界仿佛突然安静了，只剩下我的心跳声，每一声都在说：<strong class="dynamic-text">何其有幸</strong>。</p>
+            <p class="dynamic-text">其实，从认识你以来，很多普通的日子都变得不太一样了。从以前单调的三点一线到现在生活的多彩缤纷，第一次牵你手时的心动与紧张勇敢，我们一起牵手散步，我们一起约定共同努力，追逐自己的梦想，拥有耳机分你一半的浪漫，这些瞬间像星星一样，悄悄点亮了我的生活。我曾无数次想感谢命运让你出现，却总觉得语言太薄，写不尽那些心动。</p>
+            <p class="dynamic-text">所以今天，我想用这束花、这封信，给你一场完整的正式告白。</p>
+            <p class="dynamic-text"><strong class="dynamic-text">我喜欢你。</strong> 不是一时兴起，而是经过日夜验证的确定。我想和你一起看春天的花，夏天的海，秋天的叶，冬天的雪。我想走进你的生活，了解你的快乐和烦恼，成为你可以安心依靠的人。</p>
+            <p class="dynamic-text">我没有太多华丽的承诺，只想说：往后的日子，我会用行动让你感受到被爱。</p>
+            <p class="dynamic-text">花在这里，信在这里，我的心也在这里。</p>
+            <p class="dynamic-text"><strong class="dynamic-text">💞 你愿意在今天，正式地、认真地，成为我的女朋友吗？💞</strong></p>
+        </div>
+
+        <!-- 代码情话区域 - 行号后面直接跟代码，紧凑左对齐 -->
+        <div class="code-romance">
+            <div class="code-header">
+                <div class="code-dots">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                </div>
+                <div class="code-title">
+                    love_declaration.js <span>❤️ 永恒脚本</span>
+                </div>
+                <div class="code-placeholder"></div>
+            </div>
+            <div class="code-body">
+                <div class="code-line">
+                    <span class="line-number">1</span>
+                    <span class="code-content"><span class="code-comment">/* 马祥校 对 段和娟 的爱情声明 */</span></span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">2</span>
+                    <span class="code-content"><span class="code-keyword">const</span> <span class="code-var">you</span> = <span class="code-string">"段和娟"</span>;</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">3</span>
+                    <span class="code-content"><span class="code-keyword">const</span> <span class="code-var">me</span>   = <span class="code-string">"马祥校"</span>;</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">4</span>
+                    <span class="code-content"><span class="code-keyword">let</span> <span class="code-var">myHeart</span> = [ ];</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">5</span>
+                    <span class="code-content"></span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">6</span>
+                    <span class="code-content"><span class="code-keyword">for</span> (<span class="code-keyword">let</span> day = <span class="code-number">1</span>; day ⇐ Infinity; day++) {</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">7</span>
+                    <span class="code-content">&nbsp;&nbsp; <span class="code-var">myHeart</span>.<span class="code-keyword">push</span>(<span class="code-string">"想你 💖"</span>);</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">8</span>
+                    <span class="code-content">&nbsp;&nbsp; <span class="code-keyword">if</span> (!<span class="code-var">you</span>.<span class="code-var">happy</span>) {</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">9</span>
+                    <span class="code-content">&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-var">me</span>.<span class="code-keyword">do</span>(<span class="code-string">"拥抱 & 逗你笑"</span>);</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">10</span>
+                    <span class="code-content">&nbsp;&nbsp; }</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">11</span>
+                    <span class="code-content">}</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">12</span>
+                    <span class="code-content"></span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">13</span>
+                    <span class="code-content"><span class="code-comment">// 编译通过，无bug，一生可运行。</span></span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">14</span>
+                    <span class="code-content"><span class="code-comment">// 永远热恋，每天都是心动版本。</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 签名区 -->
+        <div class="signature-area">
+            <div class="signature-label">💌 请在这里留下你的答案 & 签名 💌</div>
+            <div class="signature-input">
+                <input type="text" id="girlSignature" placeholder="签下你的名字 · 段和娟" autocomplete="off">
+                <button id="confirmSignatureBtn">✨ 我同意 ✨</button>
+            </div>
+            <div id="signedMsg" class="signed-confirm">
+                <p>✅ 已收到～</p>
+                <p>从今往后，你就是我的女朋友，我就是你的男朋友咯</p>
+                <div class="heart-line">马祥校 ❤️ 段和娟</div>
+            </div>
+        </div>
+
+        <!-- 落款 爱你的后面无逗号 -->
+        <div class="sign-area">
+            <div class="love-line">爱你的</div>
+            <div class="sign-name">马祥校</div>
+            <div class="sign-date">2026年5月21日</div>
+        </div>
+
+        <footer>🌸 此信永久有效，我的心永远在线，每秒都是心动 🌸</footer>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 动态颜色切换（信的主体文字）----------
+        const dynamicElements = document.querySelectorAll('.dynamic-text');
+        // 浪漫色盘 - 斑斓色彩
+        const colorPalette = [
+            "#c44b6e", // 玫瑰红
+            "#e0855e", // 暖橘
+            "#b1627a", // 粉褐
+            "#9e6b8e", // 紫罗兰
+            "#3d7a6c", // 薄荷绿
+            "#d97a9c", // 樱花粉
+            "#6b4e6e", // 葡萄紫
+            "#e8996e"  // 杏色
+        ];
+        let colorIndex = 0;
+        const colorBtn = document.getElementById('dynamicColorBtn');
+        
+        function applyNextColor() {
+            const newColor = colorPalette[colorIndex % colorPalette.length];
+            dynamicElements.forEach(el => {
+                if (el.tagName === 'STRONG' || el.classList.contains('dynamic-text')) {
+                    el.style.color = newColor;
+                }
+            });
+            // 处理greeting，去掉渐变改为纯色表达色彩斑斓
+            const greetingEl = document.querySelector('.greeting');
+            if (greetingEl) {
+                greetingEl.style.background = 'none';
+                greetingEl.style.webkitBackgroundClip = 'unset';
+                greetingEl.style.color = newColor;
+                greetingEl.style.backgroundClip = 'unset';
+            }
+            colorIndex++;
+        }
+        
+        colorBtn.addEventListener('click', () => {
+            applyNextColor();
+            colorBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => { colorBtn.style.transform = ''; }, 150);
+        });
+        
+        // ---------- 浪漫签名 & 心形雨 ----------
+        const signBtn = document.getElementById('confirmSignatureBtn');
+        const signInput = document.getElementById('girlSignature');
+        const signedMsgDiv = document.getElementById('signedMsg');
+
+        function createFloatingHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heartSpan = document.createElement('div');
+                heartSpan.innerHTML = ['❤️', '💖', '💗', '💘', '💝', '🌸', '✨'][Math.floor(Math.random() * 7)];
+                heartSpan.style.position = 'fixed';
+                heartSpan.style.left = Math.random() * 100 + '%';
+                heartSpan.style.bottom = '-20px';
+                heartSpan.style.fontSize = (Math.random() * 24 + 14) + 'px';
+                heartSpan.style.opacity = '0.85';
+                heartSpan.style.pointerEvents = 'none';
+                heartSpan.style.zIndex = '9999';
+                heartSpan.style.transition = 'all 3.5s ease-out';
+                heartSpan.style.filter = 'drop-shadow(0 0 5px #ff99bb)';
+                document.body.appendChild(heartSpan);
+                setTimeout(() => {
+                    heartSpan.style.transform = `translateY(-${window.innerHeight + 80}px) rotate(${Math.random() * 30 - 15}deg)`;
+                    heartSpan.style.opacity = '0';
+                }, 20);
+                setTimeout(() => {
+                    heartSpan.remove();
+                }, 3600);
+            }
+        }
+        
+        function handleSign() {
+            let signature = signInput.value.trim();
+            if (signature === "") {
+                alert("💖 亲爱的，签下你的名字吧～ 让这份告白完整。");
+                signInput.style.transform = 'shake 0.2s';
+                setTimeout(() => { signInput.style.transform = ''; }, 300);
+                return;
+            }
+            if (signedMsgDiv.classList.contains('show')) return;
+            
+            signedMsgDiv.classList.add('show');
+            signBtn.innerText = "❤️ 已接受 · 我们在一起了 ❤️";
+            signBtn.disabled = true;
+            signInput.disabled = true;
+            signBtn.style.animation = 'none';
+            signBtn.style.background = "linear-gradient(95deg, #c96f8c, #e283a3)";
+            
+            console.log("%c❤️ 段和娟 ❤️ 正式成为了马祥校的女朋友", "color: #e85c80; font-size: 16px; font-weight: bold; background: #fff0f3; padding: 4px; border-radius: 12px");
+            console.log("%c 愿你们的爱情故事永不掉线 ✨", "color:#b3446c");
+            
+            const floatingHeart = document.createElement('div');
+            floatingHeart.innerHTML = '💖 她说我愿意 💖';
+            floatingHeart.style.position = 'fixed';
+            floatingHeart.style.bottom = '30px';
+            floatingHeart.style.left = '50%';
+            floatingHeart.style.transform = 'translateX(-50%)';
+            floatingHeart.style.backgroundColor = '#ff8aac';
+            floatingHeart.style.color = 'white';
+            floatingHeart.style.padding = '12px 28px';
+            floatingHeart.style.borderRadius = '60px';
+            floatingHeart.style.fontWeight = 'bold';
+            floatingHeart.style.fontFamily = 'monospace';
+            floatingHeart.style.zIndex = '999';
+            floatingHeart.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+            floatingHeart.style.fontSize = '1.2rem';
+            floatingHeart.style.backdropFilter = 'blur(4px)';
+            document.body.appendChild(floatingHeart);
+            setTimeout(() => {
+                floatingHeart.style.opacity = '0';
+                setTimeout(() => floatingHeart.remove(), 1000);
+            }, 2800);
+            createFloatingHearts();
+            setTimeout(() => createFloatingHearts(), 500);
+        }
+        
+        signBtn.addEventListener('click', handleSign);
+        signInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSign();
+            }
+        });
+        
+        window.addEventListener('load', () => {
+            console.log("%c🌸 马祥校 ❤️ 段和娟 —— 爱你的斑斓色彩，心动随时发生 🌸", "color:#f27b9e; font-size:14px");
+        });
+        
+        const heartIcon = document.querySelector('.heart-decoration');
+        if(heartIcon) {
+            setInterval(() => {
+                heartIcon.style.transform = 'scale(1.02)';
+                setTimeout(() => { heartIcon.style.transform = 'scale(1)'; }, 400);
+            }, 2200);
+        }
+    })();
+</script>
+</body>
+</html>
